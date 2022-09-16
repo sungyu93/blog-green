@@ -1,5 +1,11 @@
 # MyBatis DB연결 세팅
 
+### 페이징 개수 변경법
+- boards.xml의 id=paging 부분에 ceil(count(*)/5) totalPage
+- boards.xml의 id=findAll 부분에 FETCH NEXT 5 ROWS ONLY
+- BoardsService의 게시글목록보기() 메서드에 int startNum = page * 5;
+
+
 ### 설정방법
 - MyBatisConfig 파일 필요
 - resources/mapper/*.xml 파일 필요
