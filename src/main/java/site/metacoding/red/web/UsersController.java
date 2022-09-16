@@ -1,5 +1,8 @@
 package site.metacoding.red.web;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -41,7 +44,14 @@ public class UsersController {
 	}
 
 	@GetMapping("/loginForm")
-	public String loginForm() { // 쿠키 배워보기
+	public String loginForm(Model model, HttpServletRequest request) { // 쿠키 배워보기
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cookie : cookies) {
+			if(cookie.getName().equals("username")) {
+				model.addAttribute(cookie.getName(), cookie.getValue());
+			}
+		}
+		
 		return "users/loginForm";
 	}
 
@@ -53,7 +63,20 @@ public class UsersController {
 	}
 
 	@PostMapping("/login")
-	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto) {
+	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+		System.out.println("===============");
+		System.out.println(loginDto.isRemember());
+		System.out.println("===============");
+		if(loginDto.isRemember()) {
+			Cookie cookie = new Cookie("username", loginDto.getUsername());
+			cookie.setMaxAge(60*60*24);
+			response.addCookie(cookie);
+			// response.setHeader("Set-Cookie", "username=" + loginDto.getUsername());
+		}else {
+			Cookie cookie = new Cookie("username", null);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
 		Users principal = usersService.로그인(loginDto);
 
 		if (principal == null) {

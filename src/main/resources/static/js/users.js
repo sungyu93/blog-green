@@ -79,10 +79,10 @@ function checkUsername() {
 }
 
 function login() {
-	alert("login 함수 실행됨");
 	let data = {
 		username: $("#username").val(),
 		password: $("#password").val(),
+		remember: $("#remember").prop("checked")
 	};
 	$.ajax("/login", {
 		type: "POST",
