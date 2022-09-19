@@ -70,9 +70,8 @@ function checkUsername() {
 				isUsernameSameCheck = true;
 			} else {
 				alert("아이디가 중복되었어요. 다른 아이디를 사용해주세요.");
-				isUsernameSam = true;
-				$("#inputUsername").val("");
 				isUsernameSameCheck = false;
+				$("#inputUsername").val("");
 			}
 		}
 	});
@@ -103,9 +102,10 @@ function login() {
 
 function resign() {
 	let id = $("#id").val();
+	
 	$.ajax("/users/" + id, {
 		type: "DELETE",
-		dataType: "json",
+		dataType: "json"
 	}).done((res) => {
 		if (res.code == 1) {
 			alert("회원 탈퇴 완료");
@@ -132,7 +132,7 @@ function update() {
 		dataType: "json",
 		data: JSON.stringify(data),
 		headers: {
-			"Content-Type": "application/json"
+			"Content-Type": "application/json; charset=utf-8"
 		} // 나 지금 너한테 json 데이터 날릴 거야
 	}).done((res) => {
 		if (res.code == 1) {

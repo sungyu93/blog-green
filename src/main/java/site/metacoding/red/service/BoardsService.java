@@ -26,11 +26,14 @@ public class BoardsService {
 			page = 0;
 		}
 		int startNum = page * 5;
+
 		System.out.println("==========");
-		System.out.println("keyword : "+keyword);
+		System.out.println("keyword : " + keyword);
 		System.out.println("==========");
-		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword);
-		PagingDto pagingDto = boardsDao.paging(page, keyword);
+
+		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword, PagingDto.ROW);
+		PagingDto pagingDto = boardsDao.paging(page, keyword, PagingDto.ROW);
+
 		if (boardsList.size() == 0)
 			pagingDto.setNotResult(true);
 		pagingDto.makeBlockInfo(keyword);
@@ -46,8 +49,8 @@ public class BoardsService {
 	public void 게시글수정하기(Integer id, UpdateDto updateDto) {
 		// 1. 영속화
 		Boards boardsPS = boardsDao.findById(id);
-		
-		if(boardsPS == null) {
+
+		if (boardsPS == null) {
 			// 이 부분은 나중에 처리!! (exception 처리하는 법 따로 배울 예정)
 		}
 
@@ -60,11 +63,11 @@ public class BoardsService {
 
 	public void 게시글삭제하기(Integer id) {
 		Boards boardsPS = boardsDao.findById(id);
-		
-		if(boardsPS == null) {
+
+		if (boardsPS == null) {
 			// 이 부분은 나중에 처리!! (exception 처리하는 법 따로 배울 예정)
 		}
-		
+
 		boardsDao.deleteById(id);
 	}
 

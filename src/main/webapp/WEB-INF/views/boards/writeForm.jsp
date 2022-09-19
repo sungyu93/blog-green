@@ -15,33 +15,36 @@
 </div>
 
 <script>
- $("#btnSave").click(()=>{
-	 save();
-	 // saveTest();
- });
- 
- 
- function save(){
+	$("#btnSave").click(()=>{
+		save();
+		//saveTest();
+	});
+	
+	function save(){
 		let data = {
-			title: $("#title").val(),
-			content: $("#content").val(),
-		};
+				title: $("#title").val(),
+				content: $("#content").val()
+			};
+			$.ajax("/boards", {
+				type: "POST",
+				dataType: "json", // 응답 데이터
+				data: JSON.stringify(data), // http body에 들고갈 요청 데이터
+				headers: { // http header에 들고갈 요청 데이터
+					"Content-Type": "application/json"
+				}
+			}).done((res) => {
+				if (res.code == 1) {
+					location.href = "/";
+				}
+			});
+	}
+	
+</script>
 
-		$.ajax("/boards", {
-			type: "POST",
-			dataType: "json",
-			data: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json"
-			} // 나 지금 너한테 json 데이터 날릴 거야
-		}).done((res) => {
-			if (res.code == 1) {
-				// console.log(res);
-				location.href = "/";
-			}
-
-		}); 
- }
+<script>
+	$('#content').summernote({
+		height : 400
+	});
 </script>
 
 <script>

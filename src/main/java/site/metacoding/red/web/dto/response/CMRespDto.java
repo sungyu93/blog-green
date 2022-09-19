@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @Getter 
-@Setter
 public class CMRespDto<T> { // 공통 응답 DTO
 	private Integer code; // 1 정상, -1 실패
 	private String msg; // 실패의 이유, 성공한 이유
